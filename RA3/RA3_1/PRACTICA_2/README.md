@@ -8,9 +8,11 @@ Esta imagen hereda de la **P1** y añade la capa del Firewall de Aplicación Web
 ### 2. Validación
 Comprobación de que el módulo está cargado:
 `docker exec <contenedor> apache2ctl -M | grep security`
+Comprobación de que el WAF funciona mediante un intento de ataque (Path Traversal):
+`curl -I "http://localhost:8080/index.php?exec=/bin/bash"`
 
 ### 3. Captura de pantalla
-![Validación P2](validación_p2.png)
+<img width="900" height="142" alt="image" src="https://github.com/user-attachments/assets/39230155-eed3-47e2-981f-b6aee2f7067e" />
 
 ### 4. URL Docker Hub
 ```bash
