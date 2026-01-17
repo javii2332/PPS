@@ -1,0 +1,18 @@
+# Hereda de Certificados (que ya trae P1, P2, P3 y P4 dentro)
+FROM javi2332/pps_p_certificados_javlluapa:latest
+
+# 1. Crear usuario 'apache'
+RUN groupadd apache && useradd -g apache apache
+
+# 2. Aplicar el hardening del artículo (security-pro.conf)
+COPY security-pro.conf /etc/apache2/conf-available/security-pro.conf
+RUN a2enmod rewrite && a2enconf security-pro
+
+# 3. Permisos y cambio de usuario (como pide el artículo)
+RUN chmod -R 750 /etc/apache2/ /usr/sbin/apache2 && \
+    sed -i 's/export APACHE_RUN_USER=.*/export APACHE_RUN_USER=apache/' /etc/apache2/envvars && \
+    sed -i 's/export APACHE_RUN_GROUP=.*/export APACHE_RUN_GROUP=apache/' /etc/apache2/envvars
+
+EXPOSE 80 443
+CMD ["apache2ctl", "-D", "FOREGROUND"]
+
