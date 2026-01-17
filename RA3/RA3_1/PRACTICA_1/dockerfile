@@ -13,7 +13,7 @@ RUN a2dismod -f autoindex
 RUN a2disconf security 
 
 # 2. Habilitar módulos necesarios: SSL y Headers (Práctica 1.2)
-RUN a2enmod ssl headers
+RUN a2enmod ssl headers rewrite security2
 
 # 3. Copiar configuración de seguridad (CSP e HSTS) (Práctica 1.2 y 1.3)
 COPY csp_hsts.conf /etc/apache2/conf-available/security-hardened.conf

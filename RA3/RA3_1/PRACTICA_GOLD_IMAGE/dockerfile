@@ -1,18 +1,28 @@
-# Hereda de Certificados (que ya trae P1, P2, P3 y P4 dentro)
 FROM javi2332/pps_p_certificados_javlluapa:latest
 
-# 1. Crear usuario 'apache'
+# 1. Crear usuario y grupo apache
 RUN groupadd apache && useradd -g apache apache
 
-# 2. Aplicar el hardening del artículo (security-pro.conf)
-COPY security-pro.conf /etc/apache2/conf-available/security-pro.conf
-RUN a2enmod rewrite && a2enconf security-pro
+# 2. Forzar activación de módulos (por si acaso)
+RUN a2enmod headers rewrite
 
-# 3. Permisos y cambio de usuario (como pide el artículo)
-RUN chmod -R 750 /etc/apache2/ /usr/sbin/apache2 && \
-    sed -i 's/export APACHE_RUN_USER=.*/export APACHE_RUN_USER=apache/' /etc/apache2/envvars && \
+# 3. Aplicar el hardening del artículo directamente en el archivo principal
+# Esto evita el error de "Invalid command Header" al cargar después del módulo
+RUN echo "ServerTokens Prod" >> /etc/apache2/apache2.conf && \
+    echo "ServerSignature Off" >> /etc/apache2/apache2.conf && \
+    echo "TraceEnable Off" >> /etc/apache2/apache2.conf && \
+    echo "Header always append X-Frame-Options SAMEORIGIN" >> /etc/apache2/apache2.conf && \
+    echo "Header set X-XSS-Protection \"1; mode=block\"" >> /etc/apache2/apache2.conf
+
+# 4. Arreglar permisos para el nuevo usuario 'apache' 
+# IMPORTANTE: Necesita escribir en logs de ModSec y Evasive heredados
+RUN mkdir -p /var/log/mod_evasive /var/cache/modsecurity && \
+    chown -R apache:apache /var/log/apache2 /var/log/mod_evasive /var/cache/modsecurity /var/www/html && \
+    chmod -R 750 /etc/apache2/ /usr/sbin/apache2
+
+# 5. Cambiar el usuario de ejecución en el entorno de Apache
+RUN sed -i 's/export APACHE_RUN_USER=.*/export APACHE_RUN_USER=apache/' /etc/apache2/envvars && \
     sed -i 's/export APACHE_RUN_GROUP=.*/export APACHE_RUN_GROUP=apache/' /etc/apache2/envvars
 
 EXPOSE 80 443
 CMD ["apache2ctl", "-D", "FOREGROUND"]
-
