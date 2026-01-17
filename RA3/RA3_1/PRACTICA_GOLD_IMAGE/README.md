@@ -54,8 +54,13 @@ Se han realizado las siguientes pruebas para confirmar la robustez del servidor:
 ## 6. Captura de Pantalla
 
 A continuación se muestra la validación mediante `curl` con las cabeceras de seguridad activas:
+<img width="940" height="274" alt="image" src="https://github.com/user-attachments/assets/4a216ae2-e97c-4272-9640-29cfcf3be471" />
 
-![Validación Final](./validacion_final.png)
+<img width="709" height="207" alt="image" src="https://github.com/user-attachments/assets/9c1e06fb-ab19-440f-bb64-81c34f115738" />
+
+<img width="955" height="117" alt="image" src="https://github.com/user-attachments/assets/531ba805-dbfc-4ed8-925f-0c0712609b2d" />
+
+<img width="725" height="200" alt="image" src="https://github.com/user-attachments/assets/a79d4a69-673c-47ae-9738-71482046d9c7" />
 
 ## 7. URL Docker Hub (Golden Image)
 
