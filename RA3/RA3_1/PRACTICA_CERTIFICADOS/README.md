@@ -18,7 +18,9 @@ Al acceder a `https://www.midominioseguro.com`, el navegador mostrará un aviso 
 
 ### 3. Captura de pantalla
 ![Aviso de Seguridad y Certificado]
+<img width="770" height="731" alt="image" src="https://github.com/user-attachments/assets/26b08c99-c3dd-4ca7-a5fe-32a87cb2fd72" />
 
+<img width="770" height="898" alt="image" src="https://github.com/user-attachments/assets/96770fd3-cda2-465f-ba52-115514de27a4" />
 
 ### 4. URL Docker Hub
 ```bash
