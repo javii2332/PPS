@@ -11,8 +11,7 @@ Para verificar la ocultación de versión y las cabeceras:
 `curl -I http://localhost:8080`
 
 ### 3. Captura de pantalla
-![Validación P1](validación_p1.png)
-*(Sube aquí una captura del comando curl donde no se vea la versión de Debian)*
+<img width="906" height="204" alt="image" src="https://github.com/user-attachments/assets/4538ef40-d8a7-4e1b-bf2a-3789cba9ff17" />
 
 ### 4. URL Docker Hub
 ```bash
