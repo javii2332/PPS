@@ -10,8 +10,14 @@ Ejecución del script de prueba de carga:
 `docker exec -it <contenedor> perl /root/test.pl`
 *(Se debe observar cómo las peticiones pasan de 200 OK a 403 Forbidden)*
 
+Ejecución de prueba con Apache Bench
+`ab -n 100 -c 5 http://localhost:8080/index.html`
+*(Se debe observar la cantidad de Failed Requests y Non-2xx responses)*
+
 ### 3. Captura de pantalla
-![Validación P4](validación_p4.png)
+<img width="616" height="669" alt="image" src="https://github.com/user-attachments/assets/feb5262a-e9b2-42ed-91e5-8253fc8197e5" />
+
+<img width="762" height="906" alt="image" src="https://github.com/user-attachments/assets/90612c03-aba3-4f7a-9162-6616f755d3cd" />
 
 ### 4. URL Docker Hub
 ```bash
