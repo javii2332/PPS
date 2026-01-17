@@ -1,0 +1,32 @@
+FROM debian:bullseye
+
+# 1. Instalación de Apache y OpenSSL
+RUN apt-get update && apt-get install -y \
+        apache2 \
+        ssl-cert \
+        && apt-get clean
+
+# 2. Habilitar modulo SSL
+RUN a2enmod ssl
+
+# 3.Creacion del directorio donde se almacenaran los certificados
+RUN mkdir /etc/apache2/ssl
+
+# 4. Generar certificado Auto-firmado de forma automatica
+# El parametro -subj nos permite evitar que OpenSSL realice preguntas durante la construccion
+RUN openssl req -x509 -nodes -days 365 \
+        -newkey rsa:2048 \
+        -keyout /etc/apache2/ssl/apache.key \
+        -out /etc/apache2/ssl/apache.crt \
+        -subj "/C=ES/ST=Castellon/L=Castellon/O=Caminas Web/OU=Server Dev/CN=www.midominioseguro.com"
+
+# 5. Copiamos nuestra configuracion personalizada de VirtualHost
+COPY default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+
+# 6. Activamos el sitio y desactivamos el sitio por defecto, de forma que se eviten posibles conflictos.
+RUN a2ensite default-ssl.conf && a2dissite 000-default.conf
+
+# Exponer puertos
+EXPOSE 80 443
+
+CMD ["apache2ctl", "-D", "FOREGROUND"]
