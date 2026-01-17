@@ -1,42 +1,26 @@
-FROM debian:bullseye
+# 1. Heredamos de la Práctica 3 (que ya tiene Hardening + ModSec + OWASP)
+FROM javi2332/pps_p3_javlluapa:latest
 
-# 1. Instalación de paquetes y limpieza en un solo paso
+# 2. Solo instalamos el módulo que nos falta: mod-evasive
 RUN apt-get update && apt-get install -y \
-    apache2 \
-    ssl-cert \
-    libapache2-mod-security2 \
     libapache2-mod-evasive \
-    git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Configuración de ModSecurity y descarga de Reglas OWASP CRS
-# Clonamos, movemos lo necesario y borramos la basura para ahorrar espacio
-RUN cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf \
-    && sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/modsecurity/modsecurity.conf \
-    && git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git /tmp/owasp-crs \
-    && mv /tmp/owasp-crs/crs-setup.conf.example /etc/modsecurity/crs-setup.conf \
-    && mv /tmp/owasp-crs/rules /etc/modsecurity/rules \
-    && rm -rf /tmp/owasp-crs
-
-# 3. Configuracion de mod_evasive
+# 3. Configuración de mod_evasive
+# Creamos el directorio de logs (necesario para que funcione)
 RUN mkdir -p /var/log/mod_evasive && chown -R www-data:www-data /var/log/mod_evasive
-#COPIAMOS EL ARCHIVO DE CONFIGURACION
+
+# Copiamos el archivo de configuración específico
 COPY evasive.conf /etc/apache2/mods-available/evasive.conf
-#TENER EL TEST DISPONIBLE
+
+# Copiamos el script de prueba a /root/ para tenerlo a mano
 RUN cp /usr/share/doc/libapache2-mod-evasive/examples/test.pl /root/test.pl
 
-# 4. Copiar nuestras configuraciones de seguridad (HSTS, CSP y carga de reglas)
-COPY security2.conf /etc/apache2/mods-available/security2.conf
-COPY csp_hsts.conf /etc/apache2/conf-available/security-hardened.conf
+# 4. Activamos el módulo
+RUN a2enmod evasive
 
-# 4. Endurecimiento (Hardening) y activación de módulos
-RUN a2dismod -f autoindex \
-    && a2disconf security \
-    && a2enmod ssl headers evasive \
-    && a2enconf security-hardened \
-    && a2ensite default-ssl
+# No hace falta copiar csp_hsts.conf, ni security2.conf, ni hacer hardening, ya viene dentro de la imagen de la Práctica3
 
-# 5. Puertos y ejecución
 EXPOSE 80 443
 CMD ["apache2ctl", "-D", "FOREGROUND"]
