@@ -54,22 +54,12 @@ Se han realizado las siguientes pruebas para confirmar la robustez del servidor:
 ## 6. Captura de Pantalla
 
 A continuación se muestra la validación mediante `curl` con las cabeceras de seguridad activas en localhost:
-<img width="940" height="274" alt="image" src="https://github.com/user-attachments/assets/4a216ae2-e97c-4272-9640-29cfcf3be471" />
-
-<img width="709" height="207" alt="image" src="https://github.com/user-attachments/assets/9c1e06fb-ab19-440f-bb64-81c34f115738" />
-
-<img width="955" height="117" alt="image" src="https://github.com/user-attachments/assets/531ba805-dbfc-4ed8-925f-0c0712609b2d" />
-
-<img width="725" height="200" alt="image" src="https://github.com/user-attachments/assets/a79d4a69-673c-47ae-9738-71482046d9c7" />
+<img width="1071" height="676" alt="image" src="https://github.com/user-attachments/assets/793c37e4-a329-415f-a774-e7c32995836a" />
 
 <img width="912" height="1180" alt="image" src="https://github.com/user-attachments/assets/ae9bbfeb-e68a-439a-8e9e-31db8bbe6fac" />
 
 A continuación se muestra la validación mediante `curl` con las cabeceras de seguridad activas en www.midominioseguro.com:
-<img width="1092" height="271" alt="image" src="https://github.com/user-attachments/assets/c216bd16-2d63-4373-af14-69e14fda3fae" />
-
-<img width="996" height="123" alt="image" src="https://github.com/user-attachments/assets/5fe794af-4426-41b3-8ed2-6e72f8c9002b" />
-
-<img width="1074" height="167" alt="image" src="https://github.com/user-attachments/assets/6fa0966c-a860-4f8a-9af0-8e0b707516d0" />
+<img width="1145" height="672" alt="image" src="https://github.com/user-attachments/assets/2d00f5a6-8e10-4db6-bf8f-aacbe4e11e94" />
 
 <img width="912" height="1180" alt="image" src="https://github.com/user-attachments/assets/a6d9deb0-7f50-48f1-881b-fe703430bdaa" />
 
