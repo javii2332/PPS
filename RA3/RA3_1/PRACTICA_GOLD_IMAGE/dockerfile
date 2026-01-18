@@ -11,6 +11,8 @@ RUN a2enmod headers rewrite
 RUN echo "ServerTokens Prod" >> /etc/apache2/apache2.conf && \
     echo "ServerSignature Off" >> /etc/apache2/apache2.conf && \
     echo "TraceEnable Off" >> /etc/apache2/apache2.conf && \
+    echo "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\"" >> /etc/apache2/apache2.conf && \
+    echo "Header set Content-Security-Policy \"default-src 'self'; img-src *; media-src media1.com media2.com; script-src 'self'\"" >> /etc/apache2/apache2.conf && \
     echo "Header always append X-Frame-Options SAMEORIGIN" >> /etc/apache2/apache2.conf && \
     echo "Header set X-XSS-Protection \"1; mode=block\"" >> /etc/apache2/apache2.conf
 
