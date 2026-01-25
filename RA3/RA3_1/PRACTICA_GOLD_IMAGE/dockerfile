@@ -1,28 +1,33 @@
-FROM javi2332/pps_p_certificados_javlluapa:latest
+# Heredamos de la P5 (Certificados + DoS + OWASP + ModSec)
+FROM javi2332/pps_p5_javlluapa:latest
 
-# 1. Crear usuario y grupo apache
+# 1. Crear usuario y grupo apache para ejecución sin privilegios
 RUN groupadd apache && useradd -g apache apache
 
-# 2. Forzar activación de módulos (por si acaso)
-RUN a2enmod headers rewrite
-
-# 3. Aplicar el hardening del artículo directamente en el archivo principal
-# Esto evita el error de "Invalid command Header" al cargar después del módulo
+# 2. Configuración de Hardening de Protocolo y Servidor
+# Aplicamos ServerTokens, Signature, ETag, Trace y Timeout
 RUN echo "ServerTokens Prod" >> /etc/apache2/apache2.conf && \
     echo "ServerSignature Off" >> /etc/apache2/apache2.conf && \
+    echo "FileETag None" >> /etc/apache2/apache2.conf && \
     echo "TraceEnable Off" >> /etc/apache2/apache2.conf && \
-    echo "Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains\"" >> /etc/apache2/apache2.conf && \
-    echo "Header set Content-Security-Policy \"default-src 'self'; img-src *; media-src media1.com media2.com; script-src 'self'\"" >> /etc/apache2/apache2.conf && \
-    echo "Header always append X-Frame-Options SAMEORIGIN" >> /etc/apache2/apache2.conf && \
-    echo "Header set X-XSS-Protection \"1; mode=block\"" >> /etc/apache2/apache2.conf
+    echo "Timeout 60" >> /etc/apache2/apache2.conf
 
-# 4. Arreglar permisos para el nuevo usuario 'apache' 
-# IMPORTANTE: Necesita escribir en logs de ModSec y Evasive heredados
-RUN mkdir -p /var/log/mod_evasive /var/cache/modsecurity && \
-    chown -R apache:apache /var/log/apache2 /var/log/mod_evasive /var/cache/modsecurity /var/www/html && \
-    chmod -R 750 /etc/apache2/ /usr/sbin/apache2
+# 3. Deshabilitar listado de directorios y métodos HTTP peligrosos
+# Aplicamos 'Options -Indexes' y limitamos métodos a nivel de servidor
+RUN sed -i 's/Options Indexes FollowSymLinks/Options -Indexes +FollowSymLinks/' /etc/apache2/apache2.conf
 
-# 5. Cambiar el usuario de ejecución en el entorno de Apache
+# 4. Configuración de cabeceras adicionales (Clickjacking y XSS)
+# El módulo headers ya está activo de la P5
+RUN echo "Header always append X-Frame-Options SAMEORIGIN" >> /etc/apache2/apache2.conf && \
+    echo "Header set X-XSS-Protection \"1; mode=block\"" >> /etc/apache2/apache2.conf && \
+    echo "Header edit Set-Cookie ^(.*)$ \"\$1;HttpOnly;Secure\"" >> /etc/apache2/apache2.conf
+
+# 5. Arreglar permisos para el usuario 'apache'
+# Debe poder escribir en logs y leer la configuración
+RUN chown -R apache:apache /var/log/apache2 /var/log/mod_evasive /var/www/html && \
+    chmod -R 750 /etc/apache2/
+
+# 6. Cambiar el usuario de ejecución en las variables de entorno de Apache
 RUN sed -i 's/export APACHE_RUN_USER=.*/export APACHE_RUN_USER=apache/' /etc/apache2/envvars && \
     sed -i 's/export APACHE_RUN_GROUP=.*/export APACHE_RUN_GROUP=apache/' /etc/apache2/envvars
 
