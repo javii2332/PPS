@@ -54,7 +54,7 @@ Resultado obtenido:
 
 <img width="746" height="996" alt="image" src="https://github.com/user-attachments/assets/af674894-9299-4bc3-a871-e298b8c0ead9" />
 
-> [!TIP]
+> [!IMPORTANTE]
 > **Informe Detallado:** Se adjunta el reporte técnico completo en el archivo [informe_apache_bench.txt](./informe_apache_bench.txt) dentro de este repositorio para su revisión detallada.
 
 <img width="858" height="35" alt="image" src="https://github.com/user-attachments/assets/296930a2-2ebd-4f36-83d9-540159071d59" />
