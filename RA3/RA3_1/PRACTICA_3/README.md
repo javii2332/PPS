@@ -49,12 +49,17 @@ Para ver cómo el servidor "caza" el ataque en tiempo real:
 
 `docker exec pps_p3_owasp tail -f /var/log/apache2/error.log`
 
-Resultado esperado:
+Resultado esperado (Ataque 1):
 
 <img width="1932" height="871" alt="image" src="https://github.com/user-attachments/assets/07ddd81b-7fe8-4292-b7d4-799d43ce982e" />
 
 *(En los logs se puede observar el ID de la regla de OWASP activada y la descripción detallada del ataque bloqueado).*
 
+Resultado esperado (Ataque 2):
+
+<img width="1918" height="449" alt="image" src="https://github.com/user-attachments/assets/a14e7966-8193-4aec-95ad-30b845851196" />
+
+*(En los logs se puede observar el ID de la regla de OWASP activada y la descripción detallada del ataque bloqueado).*
 
 **D. Verificación de persistencia del Hardening (Capa 1)**
 
