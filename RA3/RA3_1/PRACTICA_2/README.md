@@ -31,6 +31,8 @@ Resultado esperado:
 
 <img width="775" height="149" alt="image" src="https://github.com/user-attachments/assets/1be94ee9-81d9-493b-9bc9-f71333c34f75" />
 
+*(El código **403 Forbidden** indica que el WAF ha detectado un intento de acceso a binarios del sistema a través de la URL y lo ha bloqueado automáticamente).*
+
 **Comprobación de protección en Formularios (POST - XSS)**
 
 `curl -i -X POST http://localhost:8080/post.php -d "campo=<script>alert(1)</script>"`
@@ -48,6 +50,8 @@ Resultado esperado:
 Resultado esperado:
 
 <img width="1027" height="118" alt="image" src="https://github.com/user-attachments/assets/21aabf86-857f-41fb-beac-bb398a0ffc78" />
+
+*(Esta salida confirma que el motor ModSecurity está activo y vinculado correctamente al proceso de Apache).*
 
 ### 4. URL Docker Hub
 `docker pull javi2332/pps_p2_javlluapa:latest`
