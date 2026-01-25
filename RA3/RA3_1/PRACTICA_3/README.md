@@ -1,29 +1,68 @@
-# Práctica 3: Reglas OWASP CRS
+# Práctica 3: ModSecurity + OWASP CRS
 
 ### 1. Explicación
-Heredando de la **P2**, se integran las reglas oficiales de **OWASP Core Rule Set**:
-- **Estrategia en cascada:** Se utiliza la imagen `pps_p2_javlluapa`.
-- **Protección Inteligente:** Bloqueo de ataques comunes como SQL Injection y XSS mediante reglas preconfiguradas.
+Esta imagen representa el nivel más alto de seguridad de la serie, heredando de la **P2 (WAF Base)** e integrando el conjunto de reglas más reconocido de la industria:
 
-### 2. Validación
-Prueba de ataque de Path Traversal bloqueado por OWASP:
+* **Estrategia en cascada:** Se utiliza la imagen `javi2332/pps_p2_javlluapa` como base, manteniendo el Hardening de la P1 y el motor ModSecurity de la P2.
+* **OWASP Core Rule Set (CRS):** Integración de reglas avanzadas para proteger contra el "Top 10" de riesgos de seguridad (SQLi, XSS, Local File Inclusion, etc.).
+* **Protección Inteligente:** El servidor ahora cuenta con una lógica de detección mucho más profunda y precisa gracias al repositorio oficial de `coreruleset`.
+
+### 2. Guía de Despliegue
+Este repositorio utiliza la imagen final con el conjunto de reglas OWASP ya preconfigurado y optimizado para su carga.
+
+**Paso 1: Descargar la imagen**
+
+`docker pull javi2332/pps_p3_javlluapa:latest`
+
+**Paso 2: Lanzar el contenedor**
+Mapeamos los puertos de servicio (8080 para HTTP y 8081 para HTTPS):
+
+`docker run -d --name pps_p3_owasp -p 8080:80 -p 8081:443 javi2332/pps_p3_javlluapa:latest`
+
+### 3. Validación y Auditoría
+
+Al contar con el Core Rule Set de OWASP, realizamos pruebas de intrusión para verificar la respuesta del firewall:
+
+**A. Bloqueo de ataque avanzado (Path Traversal)**
+
 `curl -I "http://localhost:8080/?exec=/../../"`
-*(Debe devolver un error 403 Forbidden)*
 
-Visualización de logs, ataque detectado por el servidor y cazado por las reglas OWASP:
-`docker exec "contenedor" tail -f /var/log/apache2/error.log`
+Resultado esperado:
+<img width="1083" height="280" alt="image" src="AQUÍ_TU_CAPTURA_403_PATH_TRAVERSAL" />
 
-### 3. Captura de pantalla
-<img width="906" height="287" alt="image" src="https://github.com/user-attachments/assets/5f3eab75-d4b2-4803-a0e3-529fcff8d3fd" />
+*(El código **403 Forbidden** confirma que las reglas de OWASP han identificado el patrón de navegación prohibida por directorios).*
 
-<img width="910" height="585" alt="image" src="https://github.com/user-attachments/assets/82f7c287-5524-41f4-8f77-b728c86ea863" />
 
-<img width="910" height="48" alt="image" src="https://github.com/user-attachments/assets/94b538ab-e934-4477-ab4f-513885a244d8" />
+**B. Visualización de Logs (Auditoría de OWASP)**
+Para ver cómo el servidor "caza" el ataque en tiempo real:
 
-<img width="896" height="48" alt="image" src="https://github.com/user-attachments/assets/e074c6ca-5815-4639-a9f8-a6cf12bb4d49" />
+`docker exec pps_p3_owasp tail -f /var/log/apache2/error.log`
 
-<img width="896" height="67" alt="image" src="https://github.com/user-attachments/assets/7eeaabc8-3d8e-4ab9-9d51-8a2357f4f19f" />
+Resultado esperado:
+<img width="1083" height="300" alt="image" src="AQUÍ_TU_CAPTURA_LOGS_ERROR" />
+
+*(En los logs se puede observar el ID de la regla de OWASP activada y la descripción detallada del ataque bloqueado).*
+
+
+**C. Verificación de persistencia del Hardening (Capa 1)**
+
+`curl -I http://localhost:8080`
+
+Resultado esperado:
+<img width="1083" height="200" alt="image" src="AQUÍ_TU_CAPTURA_CABECERAS_P1" />
+
+*(Se comprueba que la ocultación del servidor y las cabeceras de seguridad de la P1 siguen vigentes gracias a la herencia de imágenes).*
+
 
 ### 4. URL Docker Hub
-```bash
-docker pull javi2332/pps_p3_javlluapa:latest
+`docker pull javi2332/pps_p3_javlluapa:latest`
+
+### 5. Limpieza
+Para detener y borrar el contenedor de prueba ejecutamos:
+
+`docker stop pps_p3_owasp`
+
+`docker rm -f pps_p3_owasp`
+
+Resultado esperado:
+<img width="492" height="95" alt="image" src="AQUÍ_TU_CAPTURA_LIMPIEZA" />
