@@ -28,16 +28,16 @@ Para verificar que el WAF está operativo y bloqueando amenazas, realizamos una 
 `curl -I "http://localhost:8080/index.php?exec=/bin/bash"`
 
 Resultado esperado:
-*(Aquí pegas tu captura del 403 Forbidden)*
-<img width="1083" height="280" alt="image" src="TU_URL_DE_GITHUB_AQUI" />
+
+<img width="775" height="149" alt="image" src="https://github.com/user-attachments/assets/1be94ee9-81d9-493b-9bc9-f71333c34f75" />
 
 **Verificación de que el módulo está cargado**
 
 `docker exec pps_p2_waf apache2ctl -M | grep security`
 
 Resultado esperado:
-*(Aquí pegas tu captura donde sale security2_module)*
-<img width="1083" height="150" alt="image" src="TU_URL_DE_GITHUB_AQUI" />
+
+<img width="1027" height="118" alt="image" src="https://github.com/user-attachments/assets/21aabf86-857f-41fb-beac-bb398a0ffc78" />
 
 ### 4. URL Docker Hub
 `docker pull javi2332/pps_p2_javlluapa:latest`
@@ -50,4 +50,6 @@ Para detener y borrar el contenedor de prueba ejecutamos:
 `docker rm -f pps_p2_waf`
 
 Resultado esperado:
-<img width="492" height="95" alt="image" src="TU_URL_DE_GITHUB_AQUI" />
+
+<img width="483" height="97" alt="image" src="https://github.com/user-attachments/assets/76b50800-3e77-4431-8f87-64d9f90dc7d7" />
+
