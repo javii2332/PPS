@@ -6,6 +6,8 @@ En esta capa base, se ha configurado un servidor Apache sobre **Debian Bullseye*
 **Medidas implementadas:**
 * **Ocultación de Servidor:** Se configuró `ServerTokens ProductOnly` y `ServerSignature Off`.
 * **HSTS (HTTP Strict Transport Security):** Implementación de la cabecera para obligar al navegador a usar HTTPS durante 2 años.
+> [!NOTE]
+> Aunque la cabecera está configurada en esta fase, su efectividad real se completará en la **Práctica 5**, una vez que el servidor cuente con un certificado SSL/TLS válido para establecer el canal cifrado.
 * **CSP (Content-Security-Policy):** Capa de seguridad para prevenir ataques de inyección de datos y XSS.
 * **Deshabilitación de Autoindex:** Se desactivó el listado automático de directorios.
 * **Seguridad SSL/TLS:** Habilitación del `módulo SSL` y activación de `certificados *snakeoil*`.
