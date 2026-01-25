@@ -55,5 +55,6 @@ docker stop harden_base
 docker rm -f harden_base
 
 Resultado esperado:
+
 <img width="492" height="95" alt="image" src="https://github.com/user-attachments/assets/01e90834-7bee-4a13-84a7-c01dd353f8a5" />
 
