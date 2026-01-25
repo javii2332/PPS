@@ -18,6 +18,7 @@ Este repositorio utiliza una imagen preconfigurada alojada en Docker Hub. No nec
 docker pull javi2332/pps_p1_javlluapa:latest
 
 **Paso 2: Lanzar el contenedor**
+Mapeamos el puerto 8080 para HTTP y el 8081 para HTTPS (puerto 443 interno):
 
 docker run -d --name harden_base -p 8080:80 -p 8081:443 javi2332/pps_p1_javlluapa:latest
 
@@ -29,22 +30,23 @@ Verificación de Ocultación y Cabeceras (HTTP y HTTPS)
 
 # Comprobación de cabeceras en puerto 8080
 curl -I http://localhost:8080
+Resultado esperado:
+
+
 
 # Comprobación de puerto seguro (HSTS) en puerto 8081
+Nota: Usamos -k porque los certificados son autofirmados.
+
 curl -Ik https://localhost:8081
 Resultado esperado:
 
-Plaintext
 
-HTTP/1.1 200 OK
-Server: Apache
-Strict-Transport-Security: max-age=63072000; includeSubDomains
-Content-Security-Policy: default-src 'self'; img-src *; media-src media1.com media2.com; script-src 'self';
+
 4. URL Docker Hub
-Bash
-
 docker pull javi2332/pps_p1_javlluapa:latest
-5. Limpieza
-Bash
 
+6. Limpieza
+Para detener y borrar el contenedor de prueba ejecutamos:
+
+docker stop harden_base
 docker rm -f harden_base
