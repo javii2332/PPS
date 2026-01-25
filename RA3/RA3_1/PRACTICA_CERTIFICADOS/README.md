@@ -1,27 +1,77 @@
-# Práctica: Instalación de Certificado Digital SSL/TLS en Apache
+# Práctica 5: Instalación de Certificado Digital SSL/TLS en Apache
 
 ### 1. Explicación
-En esta práctica se ha configurado la capa de transporte seguro (SSL/TLS) en Apache mediante la creación de un certificado auto-firmado. Los pasos principales realizados han sido:
-- **Generación de Claves:** Creación de una clave privada RSA de 2048 bits y un certificado X.509 válido por 365 días.
-- **Automatización:** Uso del parámetro `-subj` en OpenSSL para generar el certificado sin intervención manual durante la construcción de la imagen.
-- **Configuración de VirtualHost:** Edición de `default-ssl.conf` para apuntar a los nuevos archivos de certificado (`apache.crt`) y clave (`apache.key`).
-- **Redirección Forzosa:** Configuración de una redirección permanente (HTTP 301) del puerto 80 al 443 para asegurar que todo el tráfico sea cifrado.
+En esta práctica se ha implementado la capa de transporte seguro (SSL/TLS) sobre la infraestructura ya blindada en las prácticas anteriores, culminando la arquitectura de "Defensa en Profundidad":
 
-### 2. Validación
-Para validar el funcionamiento, se debe mapear el dominio local en el archivo `/etc/hosts` de la máquina anfitriona:
-`127.0.0.1 www.midominioseguro.com`
+* **Estrategia en cascada:** Basada en la imagen `javi2332/pps_p4_javlluapa`, integrando Hardening (P1), ModSecurity (P2), OWASP CRS (P3) y protección DoS (P4).
+* **Cifrado SSL/TLS:** Generación de un certificado X.509 autofirmado de 2048 bits mediante OpenSSL, configurado para el dominio `www.midominioseguro.com`.
+* **Redirección Forzosa (HSTS):** Configuración de Apache para redirigir permanentemente todo el tráfico inseguro (HTTP/80) hacia el canal cifrado (HTTPS/443), garantizando la integridad y confidencialidad de los datos.
 
-Al acceder a `https://www.midominioseguro.com`, el navegador mostrará un aviso de seguridad. Esto confirma que:
-1. El servidor responde por el puerto **443 (HTTPS)**.
-2. El certificado es reconocido aunque no sea de confianza (auto-firmado).
-3. Al inspeccionar el certificado, se pueden ver los detalles de la organización (Caminas Web, Castellón, etc.).
+### 2. Guía de Despliegue
 
-### 3. Captura de pantalla
-![Aviso de Seguridad y Certificado]
-<img width="770" height="731" alt="image" src="https://github.com/user-attachments/assets/26b08c99-c3dd-4ca7-a5fe-32a87cb2fd72" />
+**Paso 1: Configuración del entorno local (Host)**
+Para que el navegador y las herramientas de test reconozcan el dominio, es necesario mapear la IP local en el archivo `/etc/hosts` de la máquina anfitriona:
 
-<img width="770" height="898" alt="image" src="https://github.com/user-attachments/assets/96770fd3-cda2-465f-ba52-115514de27a4" />
+`127.0.0.1  www.midominioseguro.com`
+
+Resultado esperado en la configuración:
+
+<img width="600" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_ETC_HOSTS" />
+
+**Paso 2: Descargar la imagen**
+
+`docker pull javi2332/pps_p5_javlluapa:latest`
+
+**Paso 3: Lanzar el contenedor**
+
+`docker run -d --name pps_p5_full -p 8080:80 -p 8081:443 javi2332/pps_p5_javlluapa:latest`
+
+### 3. Validación y Auditoría
+
+**A. Verificación de Redirección HTTP -> HTTPS**
+Comprobamos que el servidor rechaza conexiones inseguras y fuerza el salto al puerto seguro:
+
+`curl -I http://localhost:8080`
+
+Resultado esperado:
+
+<img width="850" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_CURL_REDIRECCION" />
+
+*(El código **301 Moved Permanently** hacia https://www.midominioseguro.com/ confirma la política de transporte seguro).*
+
+**B. Inspección técnica del Certificado (Issuer)**
+Validamos que el certificado contiene los datos de identidad configurados durante la construcción (Castellón, Seguridad, etc.):
+
+`curl -Iv -k https://localhost:8081 2>&1 | grep "issuer"`
+
+Resultado esperado:
+
+<img width="850" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_CURL_CERTIFICADO" />
+
+*(La línea `issuer: C=ES; ST=Castellon; L=Castellon; O=Seguridad; CN=www.midominioseguro.com` confirma la autoría del certificado).*
+
+**C. Validación Visual en Navegador**
+Al acceder a `https://www.midominioseguro.com:8081`, se verifica el aviso de seguridad por certificado autofirmado y se inspeccionan los detalles:
+
+Resultado esperado:
+
+<img width="1083" height="600" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_NAVEGADOR_AVISO" />
+<img width="1083" height="600" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_NAVEGADOR_DETALLES" />
+
+**D. Persistencia de Seguridad (WAF + DoS + Hardening)**
+Verificamos que las capas de las prácticas anteriores siguen activas bajo el túnel SSL:
+
+`curl -I -k "https://localhost:8081/?exec=/bin/bash"`
+
+Resultado esperado:
+
+<img width="850" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_WAF_SSL" />
+
+*(El código **403 Forbidden** demuestra que ModSecurity sigue inspeccionando el tráfico una vez descifrado).*
 
 ### 4. URL Docker Hub
-```bash
-docker pull javi2332/pps_p_certificados_javlluapa:latest
+`docker pull javi2332/pps_p5_javlluapa:latest`
+
+### 5. Limpieza
+
+`docker stop pps_p5_full && docker rm -f pps_p5_full`
