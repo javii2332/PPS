@@ -45,7 +45,23 @@ Resultado esperado:
 
 *(La existencia del archivo `dos-127.0.0.1` con el propietario `www-data` confirma que el motor de evasión tiene permisos de escritura y está registrando los ataques detectados).*
 
-**C. Persistencia de capas de seguridad (Heredabilidad de P1, P2 y P3)**
+**C. Prueba de carga masiva con Apache Bench (ab)**
+Para generar un informe técnico de denegación de servicio, lanzamos 100 peticiones concurrentes desde el host:
+
+`ab -n 100 -c 5 http://localhost:8080/`
+
+Resultado obtenido:
+
+<img width="746" height="996" alt="image" src="https://github.com/user-attachments/assets/af674894-9299-4bc3-a871-e298b8c0ead9" />
+
+> [!TIP]
+> **Informe Detallado:** Se adjunta el reporte técnico completo en el archivo [informe_apache_bench.txt](./informe_apache_bench.txt) dentro de este repositorio para su revisión detallada.
+
+<img width="858" height="35" alt="image" src="https://github.com/user-attachments/assets/296930a2-2ebd-4f36-83d9-540159071d59" />
+
+* **Análisis del informe:** Se observa que de las 100 peticiones realizadas, **88 fueron rechazadas (Non-2xx responses)**. Esto demuestra que tras las primeras peticiones exitosas, el módulo `mod_evasive` identificó el exceso de tráfico y activó el bloqueo 403, limitando el consumo de recursos del servidor de forma efectiva.
+
+**D. Persistencia de capas de seguridad (Heredabilidad de P1, P2 y P3)**
 Comprobamos que las reglas de OWASP siguen filtrando ataques de inyección (XSS) a pesar de la nueva capa de protección DoS:
 
 `curl -I "http://localhost:8080/?test=<script>alert(1)</script>"`
