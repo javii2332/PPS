@@ -11,7 +11,7 @@ En esta capa base, se ha configurado un servidor Apache sobre **Debian Bullseye*
 * **Seguridad SSL/TLS:** Habilitación del módulo SSL y activación de certificados *snakeoil*.
 
 ### 2. Guía de Despliegue
-Este repositorio utiliza una imagen preconfigurada alojada en Docker Hub. No necesitas los archivos de configuración locales para lanzarlo, ya que el archivo `csp_hsts.conf` y el resto de ajustes están integrados en la imagen.
+Este repositorio utiliza una imagen preconfigurada alojada en Docker Hub. No necesitamos los archivos de configuración locales para lanzarlo, ya que el archivo `csp_hsts.conf` y el resto de ajustes están integrados en la imagen.
 
 **Paso 1: Descargar la imagen**
 
@@ -53,3 +53,7 @@ Para detener y borrar el contenedor de prueba ejecutamos:
 docker stop harden_base
 
 docker rm -f harden_base
+
+Resultado esperado:
+<img width="492" height="95" alt="image" src="https://github.com/user-attachments/assets/01e90834-7bee-4a13-84a7-c01dd353f8a5" />
+
