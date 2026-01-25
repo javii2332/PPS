@@ -61,6 +61,7 @@ Resultado esperado:
 <img width="1014" height="1273" alt="image" src="https://github.com/user-attachments/assets/1229a44c-db34-4449-b6e0-31b5a9d226d3" />
 (Detalles del certificado)
 
+
 **D. Persistencia de Seguridad (WAF + DoS + Hardening)**
 Verificamos que las capas de las prácticas anteriores siguen activas bajo el túnel SSL:
 
