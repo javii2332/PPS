@@ -16,17 +16,16 @@ Este repositorio utiliza una imagen preconfigurada alojada en Docker Hub. No nec
 **Paso 1: Descargar la imagen**
 
 docker pull javi2332/pps_p1_javlluapa:latest
-Paso 2: Lanzar el contenedor
 
-Bash
+**Paso 2: Lanzar el contenedor**
 
 docker run -d --name harden_base -p 8080:80 -p 8081:443 javi2332/pps_p1_javlluapa:latest
-3. Validación y Auditoría
+
+**Paso 3: Validación y Auditoría**
+
 Para verificar que todas las medidas de seguridad se han aplicado correctamente, realizamos peticiones al contenedor:
 
 Verificación de Ocultación y Cabeceras (HTTP y HTTPS)
-
-Bash
 
 # Comprobación de cabeceras en puerto 8080
 curl -I http://localhost:8080
