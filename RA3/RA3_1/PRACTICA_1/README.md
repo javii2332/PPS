@@ -14,25 +14,30 @@ En esta capa base, se ha configurado un servidor Apache sobre **Debian Bullseye*
 Este repositorio utiliza una imagen preconfigurada alojada en Docker Hub. No necesitas los archivos de configuración locales para lanzarlo, ya que el archivo `csp_hsts.conf` y el resto de ajustes están integrados en la imagen.
 
 **Paso 1: Descargar la imagen**
-`docker pull javi2332/pps_p1_javlluapa:latest`
-
-**Paso 2: Lanzar el contenedor**
-Mapeamos el puerto 8080 para HTTP y el 8081 para HTTPS (puerto 443 interno):
-
 ```bash
+docker pull javi2332/pps_p1_javlluapa:latest
+Paso 2: Lanzar el contenedor Mapeamos el puerto 8080 para HTTP y el 8081 para HTTPS (puerto 443 interno):
+
+Bash
+
 docker run -d \
   --name harden_base \
   -p 8080:80 \
   -p 8081:443 \
   javi2332/pps_p1_javlluapa:latest
-
-### 3. Validación y Auditoría
+3. Validación y Auditoría
 Para verificar que todas las medidas de seguridad se han aplicado correctamente, realizamos peticiones al contenedor:
 
-Verificación de Ocultación y Cabeceras (HTTP) curl -I http://localhost:8080
+Verificación de Ocultación y Cabeceras (HTTP)
 
-Verificación de HTTPS y HSTS (Puerto Seguro) Nota: Usamos -k porque los certificados son autofirmados. curl -Ik https://localhost:8081
+Bash
 
+curl -I http://localhost:8080
+Verificación de HTTPS y HSTS (Puerto Seguro) Nota: Usamos -k porque los certificados son autofirmados.
+
+Bash
+
+curl -Ik https://localhost:8081
 Resultado esperado: Deberías observar las siguientes cabeceras en la respuesta:
 
 Plaintext
@@ -44,14 +49,8 @@ Content-Security-Policy: default-src 'self'; img-src *; ...
 La imagen oficial de esta práctica se encuentra en: 👉 javi2332/pps_p1_javlluapa
 
 5. Limpieza
-Si deseas detener y borrar el contenedor de prueba: docker rm -f harden_base
+Si deseas detener y borrar el contenedor de prueba:
 
+Bash
 
----
-
-### ¿Qué hemos logrado con este código?
-1. **Jerarquía visual:** El título principal usa `#` y los puntos clave usan `###` para que se vean grandes y claros.
-2. **Resaltado de comandos:** He usado los acentos graves ( \` ) para los comandos cortos (como el pull o el rm) para que resalten sobre el texto.
-3. **Bloques de código:** He usado ` ```bash ` y ` ```text ` para las partes más largas (el comando `run` y el resultado esperado) para que tengan ese fondo oscuro y estilo de terminal que tanto te gusta.
-
-¿Te gustaría que te ayude a revisar también el Dockerfile de la segunda práctica para asegurar que hereda todo esto sin errores?
+docker rm -f harden_base
