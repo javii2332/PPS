@@ -34,6 +34,7 @@ Verificación de Ocultación y Cabeceras (HTTP y HTTPS)
 Resultado esperado:
 <img width="1083" height="280" alt="image" src="https://github.com/user-attachments/assets/e0c20f23-efe3-440e-98f1-64f0a05a264b" />
 
+*(En la respuesta se observa que el campo `Server` no revela la versión de Apache ni del SO, y se verifica la correcta implementación de la política `Content-Security-Policy`).*
 
 # Comprobación de puerto seguro (HSTS) en puerto 8081
 Nota: Usamos -k porque los certificados son autofirmados.
@@ -43,6 +44,7 @@ Nota: Usamos -k porque los certificados son autofirmados.
 Resultado esperado:
 <img width="1083" height="280" alt="image" src="https://github.com/user-attachments/assets/f0371f0d-cf85-4e75-be64-ea6e586ef30c" />
 
+*(La presencia de la cabecera `Strict-Transport-Security` confirma que el servidor obliga al navegador a mantener una conexión segura (HTTPS) durante el tiempo configurado).*
 
 ### 4. URL Docker Hub
 `docker pull javi2332/pps_p1_javlluapa:latest`
