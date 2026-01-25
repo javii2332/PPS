@@ -14,12 +14,12 @@ En esta capa base, se ha configurado un servidor Apache sobre **Debian Bullseye*
 Este repositorio utiliza una imagen preconfigurada alojada en Docker Hub. No necesitas los archivos de configuración locales para lanzarlo, ya que el archivo `csp_hsts.conf` y el resto de ajustes están integrados en la imagen.
 
 **Paso 1: Descargar la imagen**
+`docker pull javi2332/pps_p1_javlluapa:latest`
+
+**Paso 2: Lanzar el contenedor**
+Mapeamos el puerto **8080** para HTTP y el **8081** para HTTPS (puerto 443 interno):
+
 ```bash
-docker pull javi2332/pps_p1_javlluapa:latest
-Paso 2: Lanzar el contenedor Mapeamos el puerto 8080 para HTTP y el 8081 para HTTPS (puerto 443 interno):
-
-Bash
-
 docker run -d \
   --name harden_base \
   -p 8080:80 \
@@ -28,29 +28,19 @@ docker run -d \
 3. Validación y Auditoría
 Para verificar que todas las medidas de seguridad se han aplicado correctamente, realizamos peticiones al contenedor:
 
-Verificación de Ocultación y Cabeceras (HTTP)
+Verificación de Ocultación y Cabeceras (HTTP) curl -I http://localhost:8080
 
-Bash
+Verificación de HTTPS y HSTS (Puerto Seguro) Nota: Usamos -k porque los certificados son autofirmados. curl -Ik https://localhost:8081
 
-curl -I http://localhost:8080
-Verificación de HTTPS y HSTS (Puerto Seguro) Nota: Usamos -k porque los certificados son autofirmados.
-
-Bash
-
-curl -Ik https://localhost:8081
 Resultado esperado: Deberías observar las siguientes cabeceras en la respuesta:
 
 Plaintext
 
 Server: Apache (Sin versiones).
 Strict-Transport-Security: max-age=63072000; includeSubDomains
-Content-Security-Policy: default-src 'self'; img-src *; ...
+Content-Security-Policy: default-src 'self'; img-src *; media-src media1.com media2.com; script-src 'self';
 4. URL Docker Hub
 La imagen oficial de esta práctica se encuentra en: 👉 javi2332/pps_p1_javlluapa
 
 5. Limpieza
-Si deseas detener y borrar el contenedor de prueba:
-
-Bash
-
-docker rm -f harden_base
+Si deseas detener y borrar el contenedor de prueba: docker rm -f harden_base
