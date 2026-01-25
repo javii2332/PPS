@@ -51,14 +51,14 @@ Resultado esperado:
 *(La línea `issuer: C=ES; ST=Castellon; L=Castellon; O=Seguridad; CN=www.midominioseguro.com` confirma la autoría del certificado).*
 
 **C. Validación Visual en Navegador**
-Al acceder a `https://www.midominioseguro.com:8081`, se verifica el aviso de seguridad por certificado autofirmado y se inspeccionan los detalles:
+Al acceder a `https://www.midominioseguro.com`, se verifica el aviso de seguridad por certificado autofirmado y se inspeccionan los detalles:
 
 Resultado esperado:
 
-<img width="1017" height="1179" alt="image" src="https://github.com/user-attachments/assets/75bc36e8-38de-4004-b7c0-b8e756ae07b9" />
+<img width="1006" height="1187" alt="image" src="https://github.com/user-attachments/assets/b132a6f4-fd88-46a6-b968-e0203708a51b" />
 (Aviso de seguridad por certificado autofirmado)
 
-<img width="1014" height="1273" alt="image" src="https://github.com/user-attachments/assets/1229a44c-db34-4449-b6e0-31b5a9d226d3" />
+<img width="1006" height="1275" alt="image" src="https://github.com/user-attachments/assets/c8c71f7f-b39d-445d-a2b5-9d06f25a2363" />
 (Detalles del certificado)
 
 
