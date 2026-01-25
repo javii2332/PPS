@@ -1,7 +1,7 @@
 # Práctica 3: ModSecurity + OWASP CRS
 
 ### 1. Explicación
-Esta imagen representa el nivel más alto de seguridad de la serie, heredando de la **P2 (WAF Base)** e integrando el conjunto de reglas más reconocido de la industria:
+Esta imagen aplica un nivel más de seguridad en la serie, heredando de la **P2 (WAF Base)** e integrando el conjunto de reglas más reconocido de la industria:
 
 * **Estrategia en cascada:** Se utiliza la imagen `javi2332/pps_p2_javlluapa` como base, manteniendo el Hardening de la P1 y el motor ModSecurity de la P2.
 * **OWASP Core Rule Set (CRS):** Integración de reglas avanzadas para proteger contra el "Top 10" de riesgos de seguridad (SQLi, XSS, Local File Inclusion, etc.).
