@@ -32,7 +32,7 @@ Verificación de Ocultación y Cabeceras (HTTP y HTTPS)
 curl -I http://localhost:8080
 
 Resultado esperado:
-
+<img width="1083" height="280" alt="image" src="https://github.com/user-attachments/assets/e0c20f23-efe3-440e-98f1-64f0a05a264b" />
 
 
 # Comprobación de puerto seguro (HSTS) en puerto 8081
@@ -41,7 +41,7 @@ Nota: Usamos -k porque los certificados son autofirmados.
 curl -Ik https://localhost:8081
 
 Resultado esperado:
-
+<img width="1083" height="280" alt="image" src="https://github.com/user-attachments/assets/f0371f0d-cf85-4e75-be64-ea6e586ef30c" />
 
 
 4. URL Docker Hub
