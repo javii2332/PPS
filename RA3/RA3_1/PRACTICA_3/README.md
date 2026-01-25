@@ -33,8 +33,18 @@ Resultado esperado:
 
 *(El código **403 Forbidden** confirma que las reglas de OWASP han identificado el patrón de navegación prohibida por directorios).*
 
+**B. Bloqueo de ataque avanzado (Command Injection)**
 
-**B. Visualización de Logs (Auditoría de OWASP)**
+`curl -I "http://localhost:8080/?exec=/bin/bash"`
+
+Resultado esperado:
+
+<img width="683" height="153" alt="image" src="https://github.com/user-attachments/assets/516c7b20-186f-4569-b36b-784fa2c0f817" />
+
+
+*(El código **403 Forbidden** confirma que las reglas de OWASP han identificado el patrón de navegación prohibida por directorios).*
+
+**C. Visualización de Logs (Auditoría de OWASP)**
 Para ver cómo el servidor "caza" el ataque en tiempo real:
 
 `docker exec pps_p3_owasp tail -f /var/log/apache2/error.log`
@@ -46,7 +56,7 @@ Resultado esperado:
 *(En los logs se puede observar el ID de la regla de OWASP activada y la descripción detallada del ataque bloqueado).*
 
 
-**C. Verificación de persistencia del Hardening (Capa 1)**
+**D. Verificación de persistencia del Hardening (Capa 1)**
 
 `curl -I http://localhost:8080`
 
