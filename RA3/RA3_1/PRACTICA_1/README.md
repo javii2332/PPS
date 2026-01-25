@@ -25,7 +25,8 @@ docker run -d \
   -p 8080:80 \
   -p 8081:443 \
   javi2332/pps_p1_javlluapa:latest
-3. Validación y Auditoría
+
+### 3. Validación y Auditoría
 Para verificar que todas las medidas de seguridad se han aplicado correctamente, realizamos peticiones al contenedor:
 
 Verificación de Ocultación y Cabeceras (HTTP) curl -I http://localhost:8080
