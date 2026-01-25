@@ -31,6 +31,16 @@ Resultado esperado:
 
 <img width="775" height="149" alt="image" src="https://github.com/user-attachments/assets/1be94ee9-81d9-493b-9bc9-f71333c34f75" />
 
+**Comprobación de protección en Formularios (POST - XSS)**
+
+`curl -i -X POST http://localhost:8080/post.php -d "campo=<script>alert(1)</script>"`
+
+Resultado esperado:
+
+<img width="1042" height="343" alt="image" src="https://github.com/user-attachments/assets/db9478f3-f7ba-43cc-a53e-75f2ccd1a71f" />
+
+*(El servidor bloquea el intento de inyección de script con un código 403, protegiendo la integridad de la aplicación).*
+
 **Verificación de que el módulo está cargado**
 
 `docker exec pps_p2_waf apache2ctl -M | grep security`
