@@ -81,6 +81,7 @@ Resultado esperado:
 `docker stop pps_p5_full && docker rm -f pps_p5_full`
 
 Resultado esperado:
+
 <img width="823" height="73" alt="image" src="https://github.com/user-attachments/assets/6d5c1b01-98ff-49b2-b5c9-26069f0dc718" />
 
 
