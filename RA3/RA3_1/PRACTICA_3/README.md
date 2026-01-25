@@ -28,6 +28,7 @@ Al contar con el Core Rule Set de OWASP, realizamos pruebas de intrusión para v
 `curl -I "http://localhost:8080/?exec=/../../"`
 
 Resultado esperado:
+
 <img width="664" height="177" alt="image" src="https://github.com/user-attachments/assets/9f982ccc-b3ab-4e5a-8661-92b10eeb036d" />
 
 *(El código **403 Forbidden** confirma que las reglas de OWASP han identificado el patrón de navegación prohibida por directorios).*
@@ -39,6 +40,7 @@ Para ver cómo el servidor "caza" el ataque en tiempo real:
 `docker exec pps_p3_owasp tail -f /var/log/apache2/error.log`
 
 Resultado esperado:
+
 <img width="1932" height="871" alt="image" src="https://github.com/user-attachments/assets/07ddd81b-7fe8-4292-b7d4-799d43ce982e" />
 
 *(En los logs se puede observar el ID de la regla de OWASP activada y la descripción detallada del ataque bloqueado).*
@@ -49,6 +51,7 @@ Resultado esperado:
 `curl -I http://localhost:8080`
 
 Resultado esperado:
+
 <img width="1091" height="293" alt="image" src="https://github.com/user-attachments/assets/74222962-ef5c-4e19-b92f-edf4388eb5c5" />
 
 *(Se comprueba que la ocultación del servidor y las cabeceras de seguridad de la P1 siguen vigentes gracias a la herencia de imágenes).*
@@ -65,4 +68,5 @@ Para detener y borrar el contenedor de prueba ejecutamos:
 `docker rm -f pps_p3_owasp`
 
 Resultado esperado:
+
 <img width="499" height="99" alt="image" src="https://github.com/user-attachments/assets/2346d587-0627-4863-9ce2-c753f1b2e7a4" />
