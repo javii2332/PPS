@@ -30,6 +30,7 @@ Verificación de Ocultación y Cabeceras (HTTP y HTTPS)
 
 # Comprobación de cabeceras en puerto 8080
 curl -I http://localhost:8080
+
 Resultado esperado:
 
 
@@ -38,6 +39,7 @@ Resultado esperado:
 Nota: Usamos -k porque los certificados son autofirmados.
 
 curl -Ik https://localhost:8081
+
 Resultado esperado:
 
 
