@@ -16,7 +16,7 @@ Para que el navegador y las herramientas de test reconozcan el dominio, es neces
 
 Resultado esperado en la configuración:
 
-<img width="600" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_ETC_HOSTS" />
+<img width="643" height="116" alt="image" src="https://github.com/user-attachments/assets/08c5a420-dac4-48cf-b95d-628b17a99a73" />
 
 **Paso 2: Descargar la imagen**
 
@@ -35,7 +35,7 @@ Comprobamos que el servidor rechaza conexiones inseguras y fuerza el salto al pu
 
 Resultado esperado:
 
-<img width="850" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_CURL_REDIRECCION" />
+<img width="636" height="180" alt="image" src="https://github.com/user-attachments/assets/4b28bc5e-60ad-45bd-90bd-9648e415c4c0" />
 
 *(El código **301 Moved Permanently** hacia https://www.midominioseguro.com/ confirma la política de transporte seguro).*
 
@@ -46,7 +46,7 @@ Validamos que el certificado contiene los datos de identidad configurados durant
 
 Resultado esperado:
 
-<img width="850" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_CURL_CERTIFICADO" />
+<img width="850" height="55" alt="image" src="https://github.com/user-attachments/assets/fafc0f7d-078e-4b3c-b162-cc9d6049da7f" />
 
 *(La línea `issuer: C=ES; ST=Castellon; L=Castellon; O=Seguridad; CN=www.midominioseguro.com` confirma la autoría del certificado).*
 
@@ -55,8 +55,9 @@ Al acceder a `https://www.midominioseguro.com:8081`, se verifica el aviso de seg
 
 Resultado esperado:
 
-<img width="1083" height="600" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_NAVEGADOR_AVISO" />
-<img width="1083" height="600" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_NAVEGADOR_DETALLES" />
+<img width="1017" height="1179" alt="image" src="https://github.com/user-attachments/assets/75bc36e8-38de-4004-b7c0-b8e756ae07b9" />
+
+<img width="1014" height="1273" alt="image" src="https://github.com/user-attachments/assets/1229a44c-db34-4449-b6e0-31b5a9d226d3" />
 
 **D. Persistencia de Seguridad (WAF + DoS + Hardening)**
 Verificamos que las capas de las prácticas anteriores siguen activas bajo el túnel SSL:
@@ -65,7 +66,7 @@ Verificamos que las capas de las prácticas anteriores siguen activas bajo el t�
 
 Resultado esperado:
 
-<img width="850" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_WAF_SSL" />
+<img width="711" height="150" alt="image" src="https://github.com/user-attachments/assets/363fb87d-95f0-4c6b-b049-e708d6f30623" />
 
 *(El código **403 Forbidden** demuestra que ModSecurity sigue inspeccionando el tráfico una vez descifrado).*
 
@@ -75,3 +76,8 @@ Resultado esperado:
 ### 5. Limpieza
 
 `docker stop pps_p5_full && docker rm -f pps_p5_full`
+
+Resultado esperado:
+<img width="823" height="73" alt="image" src="https://github.com/user-attachments/assets/6d5c1b01-98ff-49b2-b5c9-26069f0dc718" />
+
+
