@@ -22,7 +22,7 @@ Mapeamos el puerto 8080 para HTTP y el 8081 para HTTPS (puerto 443 interno):
 
 docker run -d --name harden_base -p 8080:80 -p 8081:443 javi2332/pps_p1_javlluapa:latest
 
-**Paso 3: Validación y Auditoría**
+### 3: Validación y Auditoría**
 
 Para verificar que todas las medidas de seguridad se han aplicado correctamente, realizamos peticiones al contenedor:
 
@@ -44,11 +44,12 @@ Resultado esperado:
 <img width="1083" height="280" alt="image" src="https://github.com/user-attachments/assets/f0371f0d-cf85-4e75-be64-ea6e586ef30c" />
 
 
-4. URL Docker Hub
+### 4. URL Docker Hub
 docker pull javi2332/pps_p1_javlluapa:latest
 
-6. Limpieza
+### 5. Limpieza
 Para detener y borrar el contenedor de prueba ejecutamos:
 
 docker stop harden_base
+
 docker rm -f harden_base
