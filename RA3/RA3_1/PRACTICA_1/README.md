@@ -14,7 +14,7 @@ En esta capa base, se ha configurado un servidor Apache sobre **Debian Bullseye*
 Este repositorio utiliza una imagen preconfigurada alojada en Docker Hub. No necesitas los archivos de configuración locales para lanzarlo, ya que el archivo `csp_hsts.conf` y el resto de ajustes están integrados en la imagen.
 
 **Paso 1: Descargar la imagen**
-```bash
+
 docker pull javi2332/pps_p1_javlluapa:latest
 Paso 2: Lanzar el contenedor
 
