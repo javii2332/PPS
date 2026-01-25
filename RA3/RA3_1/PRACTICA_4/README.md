@@ -30,7 +30,7 @@ Utilizamos el script de prueba localizado en `/root/test.pl` que simula una inun
 
 Resultado esperado:
 
-<img width="1083" height="400" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_P4_TEST_PERL" />
+<img width="699" height="977" alt="image" src="https://github.com/user-attachments/assets/45f8ea51-c789-4d2c-b16a-1adb64873aed" />
 
 *(Se observa cómo las primeras peticiones devuelven **200 OK** y, tras superar el umbral de 5 peticiones, el servidor comienza a responder con **403 Forbidden**, confirmando el bloqueo activo de la IP).*
 
@@ -41,7 +41,7 @@ Comprobamos que el módulo ha creado un registro físico de la IP bloqueada en e
 
 Resultado esperado:
 
-<img width="1083" height="150" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_P4_LS_LOGS" />
+<img width="769" height="81" alt="image" src="https://github.com/user-attachments/assets/3cb36d89-b231-4c76-bb88-d906455848c7" />
 
 *(La existencia del archivo `dos-127.0.0.1` con el propietario `www-data` confirma que el motor de evasión tiene permisos de escritura y está registrando los ataques detectados).*
 
@@ -52,7 +52,7 @@ Comprobamos que las reglas de OWASP siguen filtrando ataques de inyección (XSS)
 
 Resultado esperado:
 
-<img width="1083" height="250" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_P4_PERSISTENCIA_P3" />
+<img width="854" height="142" alt="image" src="https://github.com/user-attachments/assets/584a266c-6ecc-4f7b-9f30-0aa7f1e9e61f" />
 
 *(El código **403 Forbidden** y la presencia de cabeceras de seguridad de la P1 demuestran que el Hardening y el WAF siguen protegiendo el servidor).*
 
@@ -68,4 +68,5 @@ Para detener y borrar el entorno completo de prueba:
 
 Resultado esperado:
 
-<img width="500" height="100" alt="image" src="https://github.com/user-attachments/assets/TU_CAPTURA_P4_CLEANUP" />
+<img width="499" height="96" alt="image" src="https://github.com/user-attachments/assets/63261341-66e9-454d-b31a-310712d57c1b" />
+
