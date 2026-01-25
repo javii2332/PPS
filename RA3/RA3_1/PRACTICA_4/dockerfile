@@ -1,26 +1,26 @@
-# 1. Heredamos de la Práctica 3 (que ya tiene Hardening + ModSec + OWASP)
+# 1. Heredamos de la Práctica 3 (Hardening + ModSec + OWASP)
 FROM javi2332/pps_p3_javlluapa:latest
 
-# 2. Solo instalamos el módulo que nos falta: mod-evasive
+# 2. Instalamos mod-evasive y perl (necesario para el script de test)
 RUN apt-get update && apt-get install -y \
     libapache2-mod-evasive \
+    perl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # 3. Configuración de mod_evasive
-# Creamos el directorio de logs (necesario para que funcione)
+# Creamos el directorio de logs con los permisos correctos para Apache
 RUN mkdir -p /var/log/mod_evasive && chown -R www-data:www-data /var/log/mod_evasive
 
 # Copiamos el archivo de configuración específico
 COPY evasive.conf /etc/apache2/mods-available/evasive.conf
 
-# Copiamos el script de prueba a /root/ para tenerlo a mano
-RUN cp /usr/share/doc/libapache2-mod-evasive/examples/test.pl /root/test.pl
+# Preparamos el script de prueba oficial y le damos permisos
+RUN cp /usr/share/doc/libapache2-mod-evasive/examples/test.pl /root/test.pl \
+    && chmod +x /root/test.pl
 
 # 4. Activamos el módulo
 RUN a2enmod evasive
-
-# No hace falta copiar csp_hsts.conf, ni security2.conf, ni hacer hardening, ya viene dentro de la imagen de la Práctica3
 
 EXPOSE 80 443
 CMD ["apache2ctl", "-D", "FOREGROUND"]
