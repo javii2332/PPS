@@ -39,7 +39,16 @@ Este archivo actúa como el "escudo final" del servidor. Su función es centrali
 
 ## 5. Validación de la Seguridad (Evidencias)
 
-### A. Verificación de Identidad y Cabeceras Globales
+### A. Prueba Maestra de Herencia de Capas
+Para demostrar que la Gold Image mantiene las configuraciones de la **P1** mientras aplica las nuevas del artículo, ejecutamos un escaneo de directivas en el archivo de configuración activo.
+
+**Comando:** `docker exec pps_gold_javlluapa grep -E "ServerTokens|ServerSignature|FileETag|TraceEnable" /etc/apache2/apache2.conf`
+
+> [!NOTE]
+> **Interpretación:** Se observa la coexistencia de las directivas `ServerTokens` y `ServerSignature` (heredadas de la P1) junto con `FileETag` y `TraceEnable` (inyectadas en la Gold Image), demostrando una construcción incremental sin pérdida de datos.
+> ![Evidencia Grep Herencia](URL_DE_TU_CAPTURA_AQUI)
+
+### B. Verificación de Identidad y Cabeceras Globales
 Realizamos una petición HTTPS para validar el stack completo de seguridad desde el punto de vista del cliente.
 
 **Comando:** `curl -I -k https://www.midominioseguro.com:8081`
@@ -51,7 +60,7 @@ Realizamos una petición HTTPS para validar el stack completo de seguridad desde
 > [!NOTE]
 > **Interpretación:** El servidor responde con el banner oculto (`Server: Apache`), el mecanismo de transporte seguro activo (`Strict-Transport-Security`) y las nuevas protecciones contra Clickjacking y XSS. Se confirma que el servidor es "mudo" ante intentos de reconocimiento de versión.
 
-### B. Verificación de Usuario No Privilegiado
+### C. Verificación de Usuario No Privilegiado
 Auditamos los procesos en ejecución para asegurar que el compromiso de un hilo de ejecución no otorgue acceso de superusuario al atacante.
 
 **Comando:** `docker exec pps_gold_javlluapa ps -ef | grep apache`
@@ -63,7 +72,7 @@ Auditamos los procesos en ejecución para asegurar que el compromiso de un hilo 
 > [!NOTE]
 > **Interpretación:** Se observa cómo el proceso padre corre como `root` para gestionar los sockets de red, mientras que los procesos trabajadores (workers) que procesan el tráfico externo han cambiado su identidad al usuario **apache**, cumpliendo el principio de mínimo privilegio.
 
-### C. Persistencia de la Herencia (WAF y SSL)
+### D. Persistencia de la Herencia (WAF y SSL)
 Validamos que las defensas activas de las prácticas anteriores (ModSecurity) siguen operando correctamente tras el endurecimiento del sistema.
 
 **Comando (Simulación de ataque):**
