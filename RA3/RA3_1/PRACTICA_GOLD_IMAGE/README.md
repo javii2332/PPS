@@ -40,6 +40,8 @@ Este archivo actúa como el "escudo final" del servidor. Su función es centrali
 ## 5. Validación de la Seguridad (Evidencias)
 
 ### A. Verificación de Identidad y Cabeceras Globales
+Realizamos una petición HTTPS para validar el stack completo de seguridad desde el punto de vista del cliente.
+
 **Comando:** `curl -I -k https://www.midominioseguro.com:8081`
 
 > [!IMPORTANT]
@@ -50,19 +52,26 @@ Este archivo actúa como el "escudo final" del servidor. Su función es centrali
 > **Interpretación:** El servidor responde con el banner oculto (`Server: Apache`), el mecanismo de transporte seguro activo (`Strict-Transport-Security`) y las nuevas protecciones contra Clickjacking y XSS. Se confirma que el servidor es "mudo" ante intentos de reconocimiento de versión.
 
 ### B. Verificación de Usuario No Privilegiado
+Auditamos los procesos en ejecución para asegurar que el compromiso de un hilo de ejecución no otorgue acceso de superusuario al atacante.
+
 **Comando:** `docker exec pps_gold_javlluapa ps -ef | grep apache`
 
 > [!IMPORTANT]
 > **Captura de evidencia (Procesos):**
 > <img width="959" height="127" alt="image" src="https://github.com/user-attachments/assets/a6e00f42-8d37-4d70-b83d-1981aa5dab5e" />
 
+> [!NOTE]
+> **Interpretación:** Se observa cómo el proceso padre corre como `root` para gestionar los sockets de red, mientras que los procesos trabajadores (workers) que procesan el tráfico externo han cambiado su identidad al usuario **apache**, cumpliendo el principio de mínimo privilegio.
 
 ### C. Persistencia de la Herencia (WAF y SSL)
+Validamos que las defensas activas de las prácticas anteriores (ModSecurity) siguen operando correctamente tras el endurecimiento del sistema.
+
 **Comando (Simulación de ataque):**
 `curl -I -k "https://www.midominioseguro.com:8081/?exec=/bin/bash"`
 <img width="866" height="173" alt="image" src="https://github.com/user-attachments/assets/32e3fcf4-422c-451f-9903-f6ec73a37776" />
 
-**Resultado:** `403 Forbidden` (Bloqueado por ModSecurity).
+> [!NOTE]
+> **Interpretación:** El servidor devuelve un **403 Forbidden**. Esto confirma que el motor ModSecurity (P2) y las reglas OWASP (P3) siguen inspeccionando el tráfico una vez descifrado por la capa SSL (P5), bloqueando el intento de intrusión.
 
 
 ## 6. URL Docker Hub (Golden Image)
