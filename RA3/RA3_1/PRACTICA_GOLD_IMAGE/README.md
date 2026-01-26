@@ -59,8 +59,9 @@ Este archivo actúa como el "escudo final" del servidor. Su función es centrali
 ### C. Persistencia de la Herencia (WAF y SSL)
 **Comando (Simulación de ataque):**
 `curl -I -k "https://www.midominioseguro.com:8081/?exec=/bin/bash"`
-**Resultado:** `403 Forbidden` (Bloqueado por ModSecurity).
 <img width="866" height="173" alt="image" src="https://github.com/user-attachments/assets/32e3fcf4-422c-451f-9903-f6ec73a37776" />
+
+**Resultado:** `403 Forbidden` (Bloqueado por ModSecurity).
 
 
 ## 6. URL Docker Hub (Golden Image)
