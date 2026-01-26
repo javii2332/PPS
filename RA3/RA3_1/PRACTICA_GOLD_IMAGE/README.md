@@ -1,69 +1,67 @@
-# Práctica Final: Golden Image Apache (Hardening Extremo)
+# Práctica Final: Golden Image Apache (Hardening Nivel Industrial)
 
 ## 1. Introducción
-
 Esta imagen representa la culminación del proyecto de seguridad en servidores web. Se ha diseñado como una **Golden Image**, una imagen de referencia que consolida todas las capas de seguridad configuradas en las prácticas anteriores, sumando protecciones críticas a nivel de sistema operativo, usuario y protocolo.
-La imagen sigue una **estrategia de herencia en cascada**, lo que garantiza que este contenedor final sea el más robusto de toda la serie.
 
-## 2. Estructura de Herencia (Cascada)
+La imagen sigue una **estratia de herencia en cascada**, garantizando que este contenedor final sea el más robusto de toda la serie:
+* **P1 a P4:** Hardening básico, WAF (ModSecurity), Reglas OWASP y protección Anti-DoS (Mod_Evasive).
+* **P5:** Cifrado SSL/TLS y activación real de la política **HSTS**.
+* **GOLDEN IMAGE (Final):** Hardening de sistema, gestión de usuarios y blindaje de protocolos.
 
-Para maximizar la eficiencia y el orden, esta imagen se apoya en el trabajo previo siguiendo este árbol de capas:
-* **Capa Base:** `debian:bullseye`
-* **P1:** Hardening básico y cabeceras de seguridad.
-* **P2:** Instalación y activación de ModSecurity (WAF).
-* **P3:** Integración de reglas OWASP CRS.
-* **P4:** Protección contra DoS con Mod_Evasive.
-* **P_Certificados:** Implementación de SSL/TLS (Puerto 443).
-* **GOLD_IMAGE (Final):** Hardening de sistema, gestión de usuarios y protocolos.
+## 2. Justificación Técnica de la Implementación
+
+Para esta fase final, se ha optado por un enfoque de **"Cirugía y Modularidad"** en lugar de sustitución completa:
+
+### A. Uso de Archivo de Configuración Externo (`a2enconf`)
+En lugar de inyectar decenas de líneas mediante comandos `echo` en el archivo principal, se ha creado el archivo `gold-image-hardening.conf`. 
+* **Razón:** Esto permite mantener la herencia de las prácticas anteriores intacta. Al usar `a2enconf`, Apache carga estas nuevas reglas de seguridad de forma modular, permitiendo una auditoría más clara y evitando errores de sintaxis en el archivo maestro `apache2.conf`.
+
+### B. Uso de `sed` para Variables de Envorno
+Se ha utilizado el comando `sed` exclusivamente para modificar el archivo `/etc/apache2/envvars`.
+* **Razón:** En distribuciones basadas en Debian, el usuario que ejecuta Apache se define en este archivo. El uso de `sed` es la forma más eficiente de realizar este cambio de identidad de forma persistente sin tener que sobrescribir el archivo completo del sistema.
 
 
 
-## 3. Mejoras de Seguridad Implementadas
+## 3. El Archivo Externo: `gold-image-hardening.conf`
+Este archivo actúa como el "escudo final" del servidor. Su función es centralizar las directivas de seguridad avanzada que no se cubrieron en fases previas:
 
-En esta fase final se han añadido los siguientes controles basados en estándares de endurecimiento (Hardening) industrial:
-* **Usuario sin privilegios:** El servicio Apache se ha configurado para ejecutarse bajo el usuario y grupo **apache**. El servicio ya no corre como `root` o `www-data`, minimizando la superficie de ataque.
-* **Hardening de Permisos:** Se ha aplicado un `chmod 750` a las carpetas de configuración (`/etc/apache2`) y binarios, impidiendo que usuarios no autorizados lean la configuración.
-* **Deshabilitación de HTTP 1.0:** Mediante `mod_rewrite` inyectado, se obliga el uso de HTTP 1.1, mitigando vulnerabilidades de secuestro de sesión asociadas a versiones antiguas.
-* **Ocultación de Identidad (Server Banner):** Se han forzado las directivas `ServerTokens Prod` y `ServerSignature Off` para enmascarar totalmente la identidad del servidor.
-* **Seguridad de Cookies:** Configuración de banderas `HttpOnly` y `Secure` para mitigar ataques XSS y robo de sesiones.
-* **Protección contra Clickjacking:** Implementación de la cabecera `X-Frame-Options: SAMEORIGIN`.
-* **Inyección de Configuración Segura:** Las directivas se inyectan directamente en `apache2.conf` para garantizar que los módulos `headers` y `rewrite` estén operativos antes de aplicar las reglas.
+* **Hardening de Protocolo:** Incluye `TraceEnable Off` y `FileETag None` para evitar ataques de Cross-Site Tracing y fugas de información del inodo del sistema.
+* **Gestión de Timeouts:** Reduce el `Timeout` a 60 segundos para mitigar ataques de denegación de servicio de conexión lenta (Slow Loris).
+* **Blindaje de Directorios y Métodos:** * Desactiva el listado de directorios (`-Indexes`) y las inclusiones del lado del servidor (`-Includes`).
+    * Implementa `<LimitExcept>`, que actúa como una lista blanca permitiendo solo los métodos `GET`, `POST` y `HEAD`, denegando cualquier otro intento (como `PUT` o `DELETE`).
+* **Forzado de HTTP 1.1:** Utiliza el motor de reescritura para rechazar peticiones que utilicen el protocolo HTTP 1.0, eliminando riesgos de seguridad heredados.
+* **Seguridad de Capa de Aplicación:** Define las cabeceras `X-Frame-Options` y `X-XSS-Protection` para proteger al cliente final.
 
-## 4. Archivos de Configuración Incluidos
+## 4. Mejoras de Seguridad Implementadas (Capa Final)
+* **Usuario sin privilegios:** El servicio Apache se ejecuta bajo el usuario **apache**, aislándolo de `root`.
+* **Hardening de Permisos:** Aplicación de permisos restrictivos (`750`) en directorios de configuración.
+* **Ocultación de Identidad:** Forzado de `ServerTokens Prod` para enmascarar la infraestructura.
 
-Para el despliegue de esta imagen se utilizan los siguientes archivos incluidos en este directorio:
-* **dockerfile:** Define la herencia desde la imagen de certificados, la creación del usuario apache y la inyección de seguridad.
-* **default-ssl.conf:** Configuración del VirtualHost seguro y redirección permanente del puerto 80 al 443.
+## 5. Validación de la Seguridad (Evidencias)
 
-## 5. Validación de la Seguridad
+### A. Verificación de Identidad y Cabeceras Globales
+**Comando:** `curl -I -k https://www.midominioseguro.com:8081`
 
-Se han realizado las siguientes pruebas para confirmar la robustez del servidor:
+> [!IMPORTANT]
+> **Captura de evidencia (Cabeceras):**
+> ![Evidencia Curl Headers](https://github.com/user-attachments/assets/2d00f5a6-8e10-4db6-bf8f-aacbe4e11e94)
 
-**Verificación de Banner Personalizado:**
-`curl -I -k https://localhost:8081`
-* **Resultado:** El encabezado "Server" solo muestra "Apache", ocultando la versión y el sistema operativo.
+### B. Verificación de Usuario No Privilegiado
+**Comando:** `docker exec pps_gold_javlluapa ps -ef | grep apache`
 
-**Verificación de Usuario No Privilegiado:**
-`docker exec golden ps -ef | grep apache`
-* **Resultado:** Los procesos hijos se ejecutan bajo el usuario **apache**.
+> [!IMPORTANT]
+> **Captura de evidencia (Procesos):**
+> ![Evidencia ps -ef](https://github.com/user-attachments/assets/ae9bbfeb-e68a-439a-8e9e-31db8bbe6fac)
 
-**Verificación de Protocolo:**
-`curl -I --http1.0 http://localhost:8080`
-* **Resultado:** El servidor rechaza o ignora la petición según las reglas de reescritura configuradas.
 
-## 6. Captura de Pantalla
 
-A continuación se muestra la validación mediante `curl` con las cabeceras de seguridad activas en localhost:
-<img width="1071" height="676" alt="image" src="https://github.com/user-attachments/assets/793c37e4-a329-415f-a774-e7c32995836a" />
+### C. Persistencia de la Herencia (WAF y SSL)
+**Comando (Simulación de ataque):**
+`curl -I -k "https://www.midominioseguro.com:8081/?exec=/bin/bash"`
+**Resultado:** `403 Forbidden` (Bloqueado por ModSecurity).
 
-<img width="912" height="1180" alt="image" src="https://github.com/user-attachments/assets/ae9bbfeb-e68a-439a-8e9e-31db8bbe6fac" />
+## 6. URL Docker Hub (Golden Image)
+`docker pull javi2332/pps_gold_javlluapa:latest`
 
-A continuación se muestra la validación mediante `curl` con las cabeceras de seguridad activas en www.midominioseguro.com:
-<img width="1145" height="672" alt="image" src="https://github.com/user-attachments/assets/2d00f5a6-8e10-4db6-bf8f-aacbe4e11e94" />
-
-<img width="912" height="1180" alt="image" src="https://github.com/user-attachments/assets/a6d9deb0-7f50-48f1-881b-fe703430bdaa" />
-
-## 7. URL Docker Hub (Golden Image)
-
-Puedes descargar la imagen final lista para su despliegue con:
-`docker pull javi2332/pps_p_gold_image_javlluapa:latest`
+## 7. Conclusión
+Este proyecto demuestra una arquitectura de **Defensa en Profundidad** real. Cada práctica ha añadido una capa de blindaje que la Golden Image final ha consolidado, resultando en un servidor Apache optimizado para resistir ataques modernos.
