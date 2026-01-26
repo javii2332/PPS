@@ -54,17 +54,17 @@ Resultado esperado:
 *(La línea `issuer: C=ES; ST=Castellon; L=Castellon; O=Seguridad; CN=www.midominioseguro.com` confirma la autoría del certificado).*
 
 **C. Validación Visual en Navegador**
-Al acceder a `https://www.midominioseguro.com`, se verifica el aviso de seguridad por certificado autofirmado y se inspeccionan los detalles:
+Al acceder a `https://www.midominioseguro.com:8081`, se verifica el aviso de seguridad por certificado autofirmado y se inspeccionan los detalles:
 
 Resultado esperado:
 
-<img width="1006" height="1187" alt="image" src="https://github.com/user-attachments/assets/b132a6f4-fd88-46a6-b968-e0203708a51b" />
+<img width="1029" height="1278" alt="image" src="https://github.com/user-attachments/assets/d392389a-4986-4d60-8dce-4cd2bf1f2ef0" />
 (Aviso de seguridad por certificado autofirmado)
 
-<img width="1006" height="1275" alt="image" src="https://github.com/user-attachments/assets/c8c71f7f-b39d-445d-a2b5-9d06f25a2363" />
+<img width="1029" height="1278" alt="image" src="https://github.com/user-attachments/assets/ebfa7317-c247-486c-be13-487802c0e574" />
 (Detalles del certificado)
 
-<img width="1006" height="1275" alt="image" src="https://github.com/user-attachments/assets/4a8c4b4f-0637-4977-9119-eb9acd792bc6" />
+<img width="1111" height="1293" alt="image" src="https://github.com/user-attachments/assets/d017b8b0-ed97-418f-883a-551fa887e659" />
 (Página web en funcionamiento)
 
 **D. Persistencia de Seguridad (WAF + DoS + Hardening)**
