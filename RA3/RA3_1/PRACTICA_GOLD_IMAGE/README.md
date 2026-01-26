@@ -44,7 +44,6 @@ Este archivo actúa como el "escudo final" del servidor. Su función es centrali
 
 > [!IMPORTANT]
 > **Captura de evidencia (Cabeceras):**
-> ![Evidencia Curl Headers]
 > <img width="1082" height="301" alt="image" src="https://github.com/user-attachments/assets/5656cccf-a11a-4963-84ff-95fae89def52" />
 
 ### B. Verificación de Usuario No Privilegiado
@@ -52,7 +51,6 @@ Este archivo actúa como el "escudo final" del servidor. Su función es centrali
 
 > [!IMPORTANT]
 > **Captura de evidencia (Procesos):**
-> ![Evidencia ps -ef]
 > <img width="959" height="127" alt="image" src="https://github.com/user-attachments/assets/a6e00f42-8d37-4d70-b83d-1981aa5dab5e" />
 
 
