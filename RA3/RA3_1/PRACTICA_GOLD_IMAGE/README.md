@@ -39,18 +39,23 @@ Este archivo actúa como el "escudo final" del servidor. Su función es centrali
 
 ## 5. Validación de la Seguridad (Evidencias)
 
-### A. Prueba Maestra de Herencia de Capas
-Para demostrar que la Gold Image mantiene las configuraciones de la **P1** mientras aplica las nuevas del artículo, ejecutamos un escaneo de directivas en el archivo de configuración activo.
+### A. Prueba Maestra de Herencia y Prioridad de Capas
+Para validar que la Gold Image respeta la herencia de las prácticas anteriores y aplica correctamente el endurecimiento final, realizamos una búsqueda recursiva de directivas críticas en todo el árbol de configuración de Apache.
 
-**Comando:** `docker exec pps_gold_javlluapa grep -E "ServerTokens|ServerSignature|FileETag|TraceEnable" /etc/apache2/apache2.conf`
+**Comando:** `docker exec pps_gold_javlluapa grep -rE "ServerTokens|ServerSignature|FileETag|TraceEnable" /etc/apache2/`
 
 > [!IMPORTANT]
 > **Captura de evidencia (Capas):**
-> <imagen>
+> <img width="1297" height="318" alt="image" src="https://github.com/user-attachments/assets/c3ad2b35-91bb-44d6-85f5-af7508dd3b94" />
 
 > [!NOTE]
-> **Interpretación:** Se observa la coexistencia de las directivas `ServerTokens` y `ServerSignature` (heredadas de la P1) junto con `FileETag` y `TraceEnable` (inyectadas en la Gold Image), demostrando una construcción incremental sin pérdida de datos.
-> ![Evidencia Grep Herencia](URL_DE_TU_CAPTURA_AQUI)
+> **Interpretación:** El resultado del escaneo confirma la arquitectura de Defensa en Profundidad mediante la coexistencia de capas:
+
+Capa de Herencia (P1): Se detectan las directivas en security-hardened.conf (ServerTokens ProductOnly y ServerSignature Off), demostrando que el endurecimiento inicial persiste tras todas las fases del proyecto.
+
+Capa Gold Image: Se observan las nuevas restricciones en gold-image-hardening.conf (FileETag None y TraceEnable Off), inyectadas específicamente en esta fase final.
+
+Prioridad de Carga: Al utilizar archivos .conf dentro de conf-available, Apache aplica los valores más restrictivos de las capas superiores sobre los valores por defecto del sistema, garantizando un servidor totalmente "mudo" y blindado.
 
 ### B. Verificación de Identidad y Cabeceras Globales
 Realizamos una petición HTTPS para validar el stack completo de seguridad desde el punto de vista del cliente.
