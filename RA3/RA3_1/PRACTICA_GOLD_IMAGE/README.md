@@ -44,14 +44,14 @@ Este archivo actúa como el "escudo final" del servidor. Su función es centrali
 
 > [!IMPORTANT]
 > **Captura de evidencia (Cabeceras):**
-> ![Evidencia Curl Headers](https://github.com/user-attachments/assets/2d00f5a6-8e10-4db6-bf8f-aacbe4e11e94)
+> ![Evidencia Curl Headers](<img width="1082" height="301" alt="image" src="https://github.com/user-attachments/assets/5656cccf-a11a-4963-84ff-95fae89def52" />)
 
 ### B. Verificación de Usuario No Privilegiado
 **Comando:** `docker exec pps_gold_javlluapa ps -ef | grep apache`
 
 > [!IMPORTANT]
 > **Captura de evidencia (Procesos):**
-> ![Evidencia ps -ef](https://github.com/user-attachments/assets/ae9bbfeb-e68a-439a-8e9e-31db8bbe6fac)
+> ![Evidencia ps -ef](<img width="959" height="127" alt="image" src="https://github.com/user-attachments/assets/a6e00f42-8d37-4d70-b83d-1981aa5dab5e" />)
 
 
 
@@ -59,6 +59,8 @@ Este archivo actúa como el "escudo final" del servidor. Su función es centrali
 **Comando (Simulación de ataque):**
 `curl -I -k "https://www.midominioseguro.com:8081/?exec=/bin/bash"`
 **Resultado:** `403 Forbidden` (Bloqueado por ModSecurity).
+<img width="866" height="173" alt="image" src="https://github.com/user-attachments/assets/32e3fcf4-422c-451f-9903-f6ec73a37776" />
+
 
 ## 6. URL Docker Hub (Golden Image)
 `docker pull javi2332/pps_gold_javlluapa:latest`
