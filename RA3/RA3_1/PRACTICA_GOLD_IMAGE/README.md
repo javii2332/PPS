@@ -68,7 +68,10 @@ Validamos que las defensas activas de las prácticas anteriores (ModSecurity) si
 
 **Comando (Simulación de ataque):**
 `curl -I -k "https://www.midominioseguro.com:8081/?exec=/bin/bash"`
-<img width="866" height="173" alt="image" src="https://github.com/user-attachments/assets/32e3fcf4-422c-451f-9903-f6ec73a37776" />
+
+> [!IMPORTANT]
+> **Captura de evidencia (Persistencia):**
+> <img width="866" height="173" alt="image" src="https://github.com/user-attachments/assets/32e3fcf4-422c-451f-9903-f6ec73a37776" />
 
 > [!NOTE]
 > **Interpretación:** El servidor devuelve un **403 Forbidden**. Esto confirma que el motor ModSecurity (P2) y las reglas OWASP (P3) siguen inspeccionando el tráfico una vez descifrado por la capa SSL (P5), bloqueando el intento de intrusión.
