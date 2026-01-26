@@ -44,6 +44,9 @@ Para demostrar que la Gold Image mantiene las configuraciones de la **P1** mient
 
 **Comando:** `docker exec pps_gold_javlluapa grep -E "ServerTokens|ServerSignature|FileETag|TraceEnable" /etc/apache2/apache2.conf`
 
+> [!IMPORTANT]
+> **Captura de evidencia (Capas):**
+> <imagen>
 > [!NOTE]
 > **Interpretación:** Se observa la coexistencia de las directivas `ServerTokens` y `ServerSignature` (heredadas de la P1) junto con `FileETag` y `TraceEnable` (inyectadas en la Gold Image), demostrando una construcción incremental sin pérdida de datos.
 > ![Evidencia Grep Herencia](URL_DE_TU_CAPTURA_AQUI)
