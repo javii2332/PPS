@@ -45,6 +45,7 @@ Este archivo actúa como el "escudo final" del servidor. Su función es centrali
 > [!IMPORTANT]
 > **Captura de evidencia (Cabeceras):**
 > <img width="1082" height="301" alt="image" src="https://github.com/user-attachments/assets/5656cccf-a11a-4963-84ff-95fae89def52" />
+
 > [!NOTE]
 > **Interpretación:** El servidor responde con el banner oculto (`Server: Apache`), el mecanismo de transporte seguro activo (`Strict-Transport-Security`) y las nuevas protecciones contra Clickjacking y XSS. Se confirma que el servidor es "mudo" ante intentos de reconocimiento de versión.
 
